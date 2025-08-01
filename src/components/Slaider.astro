@@ -1,0 +1,168 @@
+---
+const images = [
+  "/public/quien-somos/antioquia.jpg",
+  "/public/quien-somos/centro-oriente.jpg",
+  "/public/quien-somos/cordoba.jpg",
+  "/public/quien-somos/costa1.jpg",
+  "/public/quien-somos/costa2.jpg",
+  "/public/quien-somos/ejecafetero.jpg",
+  "/public/quien-somos/occidente.jpg",
+  "/public/quien-somos/santander.jpg",
+  "/public/quien-somos/tolima.jpg",
+];
+---
+
+<style>
+  .slider-container {
+    width: 100%;
+    height: 400px;
+    max-width: 600px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
+    touch-action: pan-y;
+    user-select: none;
+  }
+  .slider {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.77, 0, 0.18, 1);
+    width: 400%;
+  }
+  .slide {
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .slider-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .slider-nav label {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ddd;
+    display: block;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .slider-nav label.active {
+    background: #333;
+  }
+</style>
+
+<div class="slider-container" id="slider-container">
+  <div class="slider" id="slider">
+    {
+      images.map((img, i) => (
+        <div class="slide">
+          <img
+            src={img}
+            alt={`Slide ${i + 1}`}
+            style="width:100%;display:block;"
+            loading="lazy"
+          />
+        </div>
+      ))
+    }
+  </div>
+  <div class="slider-nav" id="slider-nav">
+    {images.map((_, i) => <label data-index={i} />)}
+  </div>
+</div>
+
+<script type="module">
+  const slider = document.getElementById("slider");
+  const nav = document.getElementById("slider-nav");
+  const labels = nav.querySelectorAll("label");
+  const total = { length: labels.length };
+  let current = 0;
+  let interval;
+
+  function goToSlide(idx) {
+    current = (idx + total.length) % total.length;
+    slider.style.transform = `translateX(-${current * 100}%)`;
+    labels.forEach((l, i) => l.classList.toggle("active", i === current));
+  }
+
+  function nextSlide() {
+    goToSlide(current + 1);
+  }
+
+  function startAutoSlide() {
+    interval = setInterval(nextSlide, 9000);
+  }
+  function stopAutoSlide() {
+    clearInterval(interval);
+  }
+
+  labels.forEach((label, i) => {
+    label.addEventListener("click", () => {
+      goToSlide(i);
+      stopAutoSlide();
+      startAutoSlide();
+    });
+  });
+
+  // Touch/drag support
+  let startX = 0;
+  let isDragging = false;
+
+  slider.addEventListener("touchstart", (e) => {
+    stopAutoSlide();
+    isDragging = true;
+    startX = e.touches[0].clientX;
+  });
+  slider.addEventListener("touchmove", (e) => {
+    if (!isDragging) return;
+    let dx = e.touches[0].clientX - startX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) nextSlide();
+      else goToSlide(current - 1);
+      isDragging = false;
+      startAutoSlide();
+    }
+  });
+  slider.addEventListener("touchend", () => {
+    isDragging = false;
+    startAutoSlide();
+  });
+
+  // Mouse drag support
+  slider.addEventListener("mousedown", (e) => {
+    stopAutoSlide();
+    isDragging = true;
+    startX = e.clientX;
+  });
+  slider.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    let dx = e.clientX - startX;
+    if (Math.abs(dx) > 50) {
+      if (dx < 0) nextSlide();
+      else goToSlide(current - 1);
+      isDragging = false;
+      startAutoSlide();
+    }
+  });
+  slider.addEventListener("mouseup", () => {
+    isDragging = false;
+    startAutoSlide();
+  });
+  slider.addEventListener("mouseleave", () => {
+    isDragging = false;
+    startAutoSlide();
+  });
+
+  // Init
+  goToSlide(0);
+  startAutoSlide();
+</script>

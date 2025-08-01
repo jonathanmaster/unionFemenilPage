@@ -1,0 +1,76 @@
+---
+// Puedes pasar props si lo deseas, aquí están los valores por defecto
+const title = "Unión Femenil Bautista Misionera Colombiana";
+const description = "Enfocadas en Cristo para avanzar en unidad.";
+const imageUrl = "/public/union-1.png"; // Cambia esto por la ruta de tu imagen
+---
+
+<section class="section1-container">
+  <div class="section1-text">
+    <h2>{title}</h2>
+    <p>{description}</p>
+  </div>
+  <div class="section1-image">
+    <img src={imageUrl} alt="Imagen de la sección" />
+  </div>
+</section>
+
+<style>
+  .section1-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .section1-text {
+    flex: 1 1 200px;
+    min-width: 250px;
+  }
+
+  .section1-text h2 {
+    line-height: 1.2;
+    font-size: 3rem;
+  }
+
+  .section1-text p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #444;
+  }
+
+  .section1-image {
+    flex: 1 1 300px;
+    display: flex;
+    justify-content: center;
+    min-width: 200px;
+  }
+
+  .section1-image img {
+    width: auto;
+    height: 290px;
+    object-fit: cover;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  @media (max-width: 800px) {
+    .section1-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .section1-image {
+      justify-content: flex-start;
+    }
+  }
+  @media (max-width: 500px) {
+    .section1-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>

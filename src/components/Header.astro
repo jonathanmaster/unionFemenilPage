@@ -1,0 +1,145 @@
+---
+import Butons from "./Butons.astro";
+---
+
+<header>
+  <nav
+    class="py-4 flex justify-between items-center px-4 lg:px-20 gap-3 fixed top-0 left-0 w-full z-50 transition-shadow duration-300"
+    id="main-header"
+  >
+    <div>
+      <a href="/"><h1 class="text-5xl md:text-4xl">UFBMC</h1></a>
+    </div>
+    <!-- Hamburger menu button (mobile) -->
+    <button
+      id="menu-toggle"
+      class="md:hidden flex items-center px-3 py-2 border rounded text-rose-500 focus:outline-none"
+      aria-label="Abrir menú"
+      onclick="this.classList.toggle('open')"
+    >
+      <svg
+        id="menu-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="28"
+        height="28"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-menu-2 transition-all duration-300"
+      >
+        <g>
+          <path class="line1 transition-all duration-300" d="M4 6l16 0"></path>
+          <path class="line2 transition-all duration-300" d="M4 12l16 0"></path>
+          <path class="line3 transition-all duration-300" d="M4 18l16 0"></path>
+        </g>
+      </svg>
+      <style>
+        #menu-toggle.open .line1 {
+          transform: translateY(6px) rotate(45deg);
+          transform-origin: 12px 12px;
+        }
+        #menu-toggle.open .line2 {
+          opacity: 0;
+        }
+        #menu-toggle.open .line3 {
+          transform: translateY(-6px) rotate(-45deg);
+          transform-origin: 12px 12px;
+        }
+        .line1,
+        .line2,
+        .line3 {
+          transition:
+            transform 0.5s,
+            opacity 0.3s;
+        }
+      </style>
+    </button>
+    <!-- Navigation links -->
+    <ul
+      id="nav-menu"
+      class="hidden md:flex flex-col md:flex-row items-center lg:text-[20px] space-y-2 md:space-y-0 space-x-2 text-2xl absolute md:static top-16 left-0 w-full h-dvh md:h-auto md:w-auto bg-[#f5f4f0] md:bg-transparent shadow md:shadow-none z-50 text-center pt-20 md:pt-0"
+    >
+      <li>
+        <a href="/about" class="relative group transition-colors">
+          ¿Quiénes somos?
+          <span
+            class="absolute left-0 -bottom-1 w-0 h-[3px] bg-rose-500 rounded-full transition-all duration-300 group-hover:w-full"
+          ></span>
+        </a>
+      </li>
+      <li>
+        <a href="/services" class="relative group transition-colors">
+          Nuestro Trabajo
+          <span
+            class="absolute left-0 -bottom-1 w-0 h-[3px] bg-rose-500 rounded-full transition-all duration-300 group-hover:w-full"
+          ></span>
+        </a>
+      </li>
+      <li>
+        <a href="/events" class="relative group transition-colors">
+          Eventos
+          <span
+            class="absolute left-0 -bottom-1 w-0 h-[3px] bg-rose-500 rounded-full transition-all duration-300 group-hover:w-full"
+          ></span>
+        </a>
+      </li>
+      <li>
+        <a href="/donations" class="relative group transition-colors">
+          Donaciones
+          <span
+            class="absolute left-0 -bottom-1 w-0 h-[3px] bg-rose-500 rounded-full transition-all duration-300 group-hover:w-full"
+          ></span>
+        </a>
+      </li>
+      <li>
+        <a href="/reflections" class="relative group transition-colors">
+          Reflexiones
+          <span
+            class="absolute left-0 -bottom-1 w-0 h-[3px] bg-rose-500 rounded-full transition-all duration-300 group-hover:w-full"
+          ></span>
+        </a>
+      </li>
+      <li>
+        <a href="/contact"><Butons>Contacto</Butons></a>
+      </li>
+    </ul>
+    <style>
+      body {
+        padding-top: 80px; /* Ajusta según la altura del nav */
+      }
+      #main-header.scrolled {
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+        background: #f5f4f0;
+        transform: translateY(-8px) scale(0.98);
+      }
+      #main-header {
+        transition:
+          box-shadow 0.3s,
+          transform 0.3s;
+      }
+    </style>
+    <script is:inline>
+      window.addEventListener("scroll", () => {
+        const header = document.getElementById("main-header");
+        if (window.scrollY > 10) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+    </script>
+  </nav>
+
+  <script is:inline>
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("nav-menu");
+    toggle?.addEventListener("click", () => {
+      menu?.classList.toggle("hidden");
+      menu?.classList.toggle("justify-center");
+      menu?.classList.toggle("items-center");
+    });
+  </script>
+</header>
